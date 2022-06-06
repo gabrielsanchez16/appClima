@@ -10,7 +10,6 @@ const AppClima = () => {
   return (
     <>
       <main className="dos-columnas">
-        <AppClimaActual/>
         <Formulario/>
           {cargando ? <Loading/> :
           resultado?.name && <Resultado/>}

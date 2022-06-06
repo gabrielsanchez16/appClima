@@ -13,10 +13,8 @@ const Formulario = () => {
         if(Object.values(busqueda).includes("")){
             setAlerta("todos los campos son obligatorios")
             return
-        }else{
-            setAlerta("Buscando Clima...");
-
         }
+        setAlerta("")
         consultarClima(busqueda)
     }
 

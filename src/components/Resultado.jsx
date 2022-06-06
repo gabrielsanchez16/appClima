@@ -13,7 +13,7 @@ const Resultado = () => {
     <div className="contenedor">
         <div className="sub-container">
             <h2>{name}</h2>
-            <img src={`http://openweathermap.org/img/wn/${weather[0]?.icon}@2x.png`} alt="photoicono" />
+            <img src={`https://openweathermap.org/img/wn/${weather[0]?.icon}@2x.png`} alt="photoicono" />
             <h3>{parseInt(main?.temp - kelvin)} <span>&#x2103;</span></h3>
             <ul>
                 <li><WiThermometer/>Temp Max: {parseInt(main?.temp_max -kelvin)}<span>&#x2103;</span></li>

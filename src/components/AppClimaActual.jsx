@@ -9,6 +9,7 @@ const AppClimaActual = () => {
     
     const [latLon, setLatLon] = useState()
     const [weat, setWeat] = useState()
+    const [celsius, setCelsius] = useState(true)
 
   //grados kelvin
     const kelvin = 273.15;
@@ -33,25 +34,39 @@ const AppClimaActual = () => {
             .then(res=> setWeat(res.data))
     
             .catch(err => console.log(err))
+
+            
         }
+        console.log(weat)
     }, [latLon])
-console.log(weat);
+
+    const chanceCelsius = (weat?.main.temp - 273.15).toFixed(1);
+    const changeFarenheit = (((weat?.main.temp - 273.15 )*9) / 5 +32).toFixed(1);
+    const botton = ()=>{
+        if(celsius === false){
+            setCelsius(true)
+        }else{
+            setCelsius(false)
+        }
+    }
 
 return (
     <div className=" contenedor">
          <div className="sub-container">
-            <h2>{weat?.name}</h2>
-            <img src={`http://openweathermap.org/img/wn/${weat?.weather[0].icon}@2x.png`} alt="photoicono" />
-            <h3>{parseInt(weat?.main.temp - kelvin)} <span>&#x2103;</span></h3>
+            <h2>{weat?.name}, {weat?.sys.country}</h2>
+            <img src={weat &&`http://openweathermap.org/img/wn/${weat.weather[0].icon}@2x.png`} alt="photoicono" />
+            <h4>{weat?.weather[0].main}</h4>
+            <h3>{celsius ? `${chanceCelsius} °C ` : `${changeFarenheit} °F` } </h3>
             <ul>
-                <li><WiThermometer/>Temp Max: {parseInt(weat?.main.temp_max -kelvin)}<span>&#x2103;</span></li>
-                <li><WiThermometerExterior/>Temp Min: {parseInt(weat?.main.temp_min - kelvin)}<span>&#x2103;</span></li>
+                <li><WiThermometer/>Temp Max: {celsius ? `${parseInt(weat?.main.temp_max -kelvin)} °C` : `${parseInt(((weat?.main.temp_max -273.15)*9)/5 + 32)} °F`}</li>
+                <li><WiThermometerExterior/>Temp Min: {celsius ? `${parseInt(weat?.main.temp_min -kelvin)} °C` : `${parseInt(((weat?.main.temp_min -273.15)*9)/5 + 32)} °F`}</li>
                 <li><WiBarometer/>Pressure: {parseInt(weat?.main.pressure)} hPa</li>
                 <li><WiHumidity/>Humidity: {parseInt(weat?.main.humidity)}%</li>
                 <li><WiCloudy/>Clouds: {parseInt(weat?.clouds?.all)}%</li>
                 <li><WiStrongWind/>Wind Speed: {parseInt(weat?.wind?.speed)} m/s</li>
                 <li><MdDescription/>Description: {weat?.weather[0].description}</li>
             </ul>
+            <button className="button-change" onClick={botton}>{celsius ? "Change F°":"Change C°"}</button>
         </div>
     </div>
 )
